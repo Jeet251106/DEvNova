@@ -1,0 +1,51 @@
+========================================
+CYBER SECURE | AI Threat Dataset Samples
+========================================
+
+Use this dataset to test the Cyber Secure Threat Analyzer in your browser. 
+Copy and paste the blocks into the "Scan Content" input area.
+
+--------------------------------------------------
+SAMPLE 1: Phishing (High Severity)
+--------------------------------------------------
+URGENT: Your Corporate Office365 Account Will Be Locked
+
+Dear Employee,
+Your password will expire in 24 hours. Because you have missed the recent security protocol update, you will be locked out of the corporate VPN immediately.
+
+Action Required:
+Click here to setup your new credentials: http://auth-secure-update-portal.com/login
+
+System Admin Team
+
+--------------------------------------------------
+SAMPLE 2: Social Engineering / Scam (Medium Severity)
+--------------------------------------------------
+Congratulations! You've been chosen!
+
+You are the lucky winner of a brand new iPhone 15 Pro Max! 
+To claim your free prize, simply verify your shipping address and pay the small $2 shipping fee.
+Link: www.claim-free-prize-now.org/winner
+
+Act fast, this offer is only valid today!
+
+--------------------------------------------------
+SAMPLE 3: Suspicious Behavior (Low Severity)
+--------------------------------------------------
+Hey,
+Check out this cool new website my friend made. 
+It’s completely awesome: www.brand-new-site123.net
+
+Talk soon!
+
+--------------------------------------------------
+SAMPLE 4: Safe / Benign (Safe Severity)
+--------------------------------------------------
+Hello Team,
+
+Please review the attached PDF notes from yesterday's sync regarding the new UI update. 
+Let me know if there are any corrections before we send it to the client next Monday.
+
+Best regards,
+Sarah Jenkins
+Product Manager

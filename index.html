@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CYBER SECURE | Threat Analyzer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  
+  <canvas id="dotted-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index: -1;"></canvas>
+
+  <div class="app-container">
+    <header>
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <h1 class="title-glow">CYBER<span>SEC</span></h1>
+      </div>
+      <div class="score-tracker" title="Awareness Score">
+        <span class="mono-label" style="font-size: 0.85rem;">Score</span>
+        <span class="value" id="score-display">0</span>
+      </div>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="tab active" data-target="analyzer-view">THREAT ANALYZER</button>
+      <button class="tab" data-target="dashboard-view">DASHBOARD</button>
+    </div>
+
+    <!-- MAIN ANALYZER VIEW -->
+    <main id="analyzer-view" class="main-grid">
+      
+      <!-- Input Section -->
+      <section class="glass-panel analyzer-section">
+        <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+          <div>
+            <h2 style="color:var(--text-main); margin-bottom: 0.5rem;">AI Threat Inspector</h2>
+            <p class="mono-label" style="color:var(--text-muted);">ENTER SUSPICIOUS CONTENT FOR ANALYSIS</p>
+          </div>
+          <button id="btn-start-sim" style="font-size: 0.75rem; padding: 0.5rem 1rem;">Start Simulation</button>
+        </div>
+        
+        <div class="input-group">
+          <textarea id="threat-input" rows="6" placeholder="Paste an email body, text message, or URL here...
+e.g. 'URGENT: Your account will be locked in 24 hours. Click here to verify: http://secure-login-update.com/auth'"></textarea>
+        </div>
+        
+        <div id="drop-zone" style="border: 2px dashed rgba(0,229,192,0.3); background: rgba(0,0,0,0.2); padding: 1.5rem; border-radius: 8px; text-align: center; color: var(--text-muted); cursor: pointer; transition: all 0.3s; margin-bottom: 0.5rem;">
+           <span id="drop-text">Drag & Drop a file (.png, .jpg, .pdf, .eml) here to extract text <br> or <strong>click to browse</strong></span>
+           <div id="drop-loader" class="hidden"><span class="loader" style="width:16px;height:16px;border-width:2px;border-top-color:var(--primary);"></span> Extracting text...</div>
+           <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.pdf,.eml" style="display: none;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between;">
+           <button id="btn-analyze" class="primary-btn">
+             <span class="btn-text">SCAN CONTENT</span>
+             <span class="loader hidden" id="scan-loader"></span>
+           </button>
+           <button id="btn-clear" style="padding: 0.5rem 1rem; font-size: 0.85rem; color: var(--text-muted); border-color: transparent;">Clear</button>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section class="glass-panel results-section" id="results-panel">
+        
+        <div class="empty-state" id="results-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+          <p>Awaiting input for analysis...</p>
+        </div>
+
+        <div class="result-content hidden fade-in" id="results-content">
+          <div class="severity-header">
+            <h3 style="font-size: 1.25rem;">Analysis Report</h3>
+            <span class="badge" id="severity-badge">HIGH</span>
+          </div>
+
+          <div class="explanation-box">
+            <span class="mono-label" style="display:block; margin-bottom:0.5rem; color:var(--text-muted);">EXPLANATION</span>
+            <p id="explanation-text" style="color:var(--text-main); line-height:1.7;">
+              <!-- Dynamic Explanation content -->
+            </p>
+          </div>
+
+          <div>
+            <span class="mono-label" style="display:block; margin-bottom:1rem; color:var(--text-muted);">RECOMMENDED ACTIONS</span>
+            <ul class="recommendations-list" id="recommendations-list">
+              <!-- Dynamic List Items -->
+            </ul>
+          </div>
+          
+          <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-dim); display: none;" id="report-action-container">
+            <span class="mono-label" style="display:block; margin-bottom:0.5rem; color:var(--accent-red);">ESCALATION</span>
+            <a href="https://cybercrime.gov.in/" target="_blank" id="btn-report-gov" class="primary-btn" style="background: var(--accent-red); color: white; box-shadow: 0 0 15px var(--accent-red-glow); border: none; text-decoration: none; width: 100%; font-size: 0.9rem;">
+              🚨 REPORT TO GOVT CYBERCELL
+            </a>
+          </div>
+          
+          <div style="margin-top: 1rem;" id="share-action-container">
+            <button id="btn-share-email" class="primary-btn" style="width: 100%; background: var(--secondary); color: white; box-shadow: 0 0 15px var(--secondary-glow); border: none;">
+              📧 SHARE REPORT VIA EMAIL
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- DASHBOARD VIEW -->
+    <main id="dashboard-view" class="hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+          <h2>Threat Dashboard</h2>
+          <p class="mono-label" style="color:var(--text-muted);">HISTORICAL ANALYSIS DATA</p>
+        </div>
+        <button id="btn-export" class="primary-btn">EXPORT PDF</button>
+      </div>
+
+      <div class="dashboard-grid">
+        <section class="glass-panel dashboard-card">
+          <h3 class="mono-label">Threats by Category</h3>
+          <div class="chart-container">
+            <canvas id="threatChart"></canvas>
+          </div>
+        </section>
+
+        <section class="glass-panel dashboard-card">
+          <h3 class="mono-label">Recent History</h3>
+          <div class="history-list" id="history-container">
+            <!-- Dynamic History -->
+          </div>
+        </section>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- SIMULATION OVERLAY -->
+  <div class="sim-overlay" id="sim-modal">
+    <div class="sim-container">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="color:var(--primary);">Phishing Simulation Drill</h2>
+        <span class="mono-label">Interactive Mode</span>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.9rem;">
+        Find and click on the 3 hidden red flags in this email. 
+        Detecting all of them correctly will award you bonus points!
+      </p>
+
+      <div class="sim-mock-email">
+        <div class="sim-header">
+          <span class="sim-sender" style="color:#666;"><strong>From:</strong> IT Support &lt;<span class="sim-highlight" data-info="Flag 1: Spoofed Domain. Look closely at 'll-support' instead of 'it-support'">admin@ll-support.company.com</span>&gt;</span>
+          <span style="color:#666;"><strong>To:</strong> employee@company.com</span>
+          <span style="color:#666;"><strong>Subject:</strong> <span class="sim-highlight" data-info="Flag 2: Urgency. Creating panic is a classic phishing tactic.">URGENT: Password Expiry Notification (2 Hours Remaining)</span></span>
+        </div>
+        <div class="sim-body">
+          <p>Dear Valued Employee,</p>
+          <br>
+          <p>Your corporate Office365 password is set to expire in exactly 2 hours. Due to new security policies, if you do not update your credentials immediately, you will be locked out of your account and VPN access.</p>
+          <p>Please use the secure link below to retain your current password or set a new one:</p>
+          <br>
+          <a href="#" class="sim-highlight sim-link" data-info="Flag 3: Suspicious URL Payload. This leads to a credential harvesting form, not a real login page.">Update Credentials Now</a>
+          <br><br>
+          <p>Thank you,<br>Company IT Security Team</p>
+        </div>
+      </div>
+
+      <div class="sim-controls">
+        <div style="color:var(--text-main); font-family:var(--font-mono); font-size:0.85rem;">
+          Flags found: <span id="sim-flags-count" style="color:var(--primary); font-size:1.1rem;">0</span> / 3
+        </div>
+        <button id="btn-close-sim" style="border-color:var(--text-muted); color:var(--text-main);">ABORT DRILL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY DETAIL MODAL -->
+  <div class="sim-overlay" id="history-modal">
+    <div class="sim-container" style="max-width: 600px; max-height: 80vh; overflow-y: auto; display: flex; flex-direction: column;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-dim); padding-bottom: 1rem; margin-bottom: 1rem; flex-shrink: 0;">
+        <h2 style="color:var(--primary); font-size: 1.5rem;">Threat Anomaly Details</h2>
+        <span class="badge" id="hist-detail-badge"></span>
+      </div>
+      <div style="flex: 1; overflow-y: auto;">
+        <span class="mono-label" style="color:var(--text-muted);">ANOMALY EXPLANATION (WHY IT'S FAKE)</span>
+        <p style="background:rgba(0,0,0,0.4); border-left:3px solid var(--primary); padding:1rem; border-radius:0 6px 6px 0; margin-top:0.5rem; line-height: 1.6;" id="hist-detail-explanation"></p>
+      </div>
+      <div style="text-align: right; margin-top: 1rem; flex-shrink: 0;">
+        <button id="btn-close-history" style="border-color:var(--text-muted); color:var(--text-main); cursor: pointer;">CLOSE DETAILED VIEW</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
