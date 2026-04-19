@@ -3,6 +3,7 @@ import tldextract
 TRUSTED_DOMAINS = {
     "google.com", "microsoft.com", "apple.com", "amazon.com", "meta.com", "facebook.com", "instagram.com", "whatsapp.com",
     "github.com", "gitlab.com", "bitbucket.org", "stackoverflow.com", "reddit.com", "linkedin.com", "twitter.com", "x.com",
+    "onrender.com", "vercel.app", "netlify.app", "github.io"
 }
 
 def levenshtein_distance(s1, s2):
@@ -39,10 +40,14 @@ def test(url):
         return f"{url} -> PHISHING (Look-alike of {alike})"
     return f"{url} -> NEUTRAL (Go to AI)"
 
+print("--- BASIC TESTS ---")
 print(test("linkedin.com"))
 print(test("linkdin.com"))
 print(test("g00gle.com"))
-print(test("google.co"))
 print(test("twitter.com"))
-print(test("twittter.com"))
-print(test("my-blog.com"))
+
+print("\n--- HOSTING PLATFORM TESTS ---")
+print(test("https://devnova-8373.onrender.com/"))
+print(test("https://my-project.vercel.app"))
+print(test("https://user.github.io/repo"))
+print(test("https://onrrender.com")) # Typo of onrender.com

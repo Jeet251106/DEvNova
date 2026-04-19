@@ -26,7 +26,8 @@ TRUSTED_DOMAINS = {
     "github.com", "gitlab.com", "bitbucket.org", "stackoverflow.com", "reddit.com", "linkedin.com", "twitter.com", "x.com",
     "gmail.com", "outlook.com", "hotmail.com", "icloud.com", "yahoo.com", "proton.me", "protonmail.com", "dropbox.com",
     "slack.com", "discord.com", "zoom.us", "salesforce.com", "paypal.com", "stripe.com", "visa.com", "mastercard.com",
-    "netflix.com", "spotify.com", "youtube.com", "wikipedia.org", "bing.com", "duckduckgo.com"
+    "netflix.com", "spotify.com", "youtube.com", "wikipedia.org", "bing.com", "duckduckgo.com",
+    "onrender.com", "vercel.app", "netlify.app", "github.io"
 }
 
 def get_root_domain(text: str):
