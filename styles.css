@@ -646,3 +646,89 @@ button:disabled {
   from { transform: translateX(0); opacity: 1; }
   to { transform: translateX(100%); opacity: 0; }
 }
+
+
+/* ================= PREMIUM DUAL CURSOR ================= */
+#cursor-dot, #cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+}
+
+#cursor-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow-strong);
+}
+
+#cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow-subtle);
+  transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.23, 1, 0.32, 1), height 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hover state for the ring */
+.cursor-hover #cursor-ring {
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary-glow-subtle);
+  border-width: 1px;
+}
+
+.cursor-hover #cursor-dot {
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* This class will be added to the body via JS when the cursor is initialized */
+.custom-cursor-active, 
+.custom-cursor-active a, 
+.custom-cursor-active button, 
+.custom-cursor-active input, 
+.custom-cursor-active textarea, 
+.custom-cursor-active [role="button"], 
+.custom-cursor-active .tab {
+  cursor: none !important;
+}
+
+@media (hover: none) {
+  #cursor-dot, #cursor-ring { display: none; }
+  .custom-cursor-active { cursor: auto !important; }
+}
+
+/* GAMIFICATION STYLES */
+.sim-level-btn {
+  flex: 1;
+  font-size: 0.65rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-dim);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.sim-level-btn.active {
+  background: var(--primary-glow-subtle);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.signal-pill {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  background: rgba(0, 229, 192, 0.1);
+  border: 1px solid var(--primary-glow);
+  color: var(--primary);
+  border-radius: 4px;
+}
